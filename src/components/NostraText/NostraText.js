@@ -1,5 +1,24 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react'
 
-export const NostraText = () => {
-    return <h1>Hello World</h1>
+const data = {
+  "test" : "Welcome Nostra",
+};
+
+
+export const NostraText = ({ tag, original }) => {
+    var result = original;
+    if(data[tag] !== undefined){
+      result = data[tag];
+    }
+    return (
+      <div data-nostra={tag}> {result} </div>
+    )
 }
+
+const NostraImage = ({ tag, original }) => {
+    return (
+      <img src={require("../logo.svg").default} data-nostra={tag} className="App-logo" alt="logo" />
+    )
+  }
+  
+  export { NostraText, NostraImage }
