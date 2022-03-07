@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 
 const data = {
-  "test" : "Welcome Nostra",
+  "test2" : "Welcome Nostra",
 };
 
 export const NostraText = ({ tag : Tag, original, nostraTag, attributes }) => {

@@ -3,7 +3,7 @@ import {storiesOf} from '@storybook/react';
 
 import {NostraImage} from '../components/NostraImage'
 
-const stories = storiesOf('Nostra Image', module);
+const stories = storiesOf('Nostra', module);
 
 stories.add('Image', () => {
     return (
