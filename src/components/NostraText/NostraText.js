@@ -4,21 +4,12 @@ const data = {
   "test" : "Welcome Nostra",
 };
 
-
-export const NostraText = ({ tag, original }) => {
+export const NostraText = ({ tag : Tag, original, nostraTag, attributes }) => {
     var result = original;
-    if(data[tag] !== undefined){
-      result = data[tag];
+    if(data[nostraTag] !== undefined){
+      result = data[nostraTag];
     }
     return (
-      <div data-nostra={tag}> {result} </div>
+        <Tag data-nostra={nostraTag} { ...attributes }> {result} </Tag> 
     )
 }
-
-const NostraImage = ({ tag, original }) => {
-    return (
-      <img src={require("../logo.svg").default} data-nostra={tag} className="App-logo" alt="logo" />
-    )
-  }
-  
-  export { NostraText, NostraImage }

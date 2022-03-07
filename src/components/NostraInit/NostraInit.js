@@ -1,5 +1,5 @@
 import Async from 'react-async';
-import db from '../db';
+// import db from '../db';
 
 const getData = async () => {
     const res = await fetch('https://prod-api.nostra.ai/content/?site=https://ec2.nostraprod.com&content=content&page=/&referrer=default', {
