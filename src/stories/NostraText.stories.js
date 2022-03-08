@@ -7,6 +7,6 @@ const stories = storiesOf('Nostra', module);
 
 stories.add('Text', () => {
     return (
-        <NostraText nostraTag="test" original="This is example text for Nostra" tag="h2" attributes={{"class" : "sample"}}/>
+        <NostraText nostraTag="test2" original="<span style='color:blue'>This is example text</span> for Nostra" tag="h2" attributes={{"class" : "sample"}}/>
     );
 })
