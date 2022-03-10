@@ -1,5 +1,4 @@
 import Async from 'react-async';
-import db from '../../db';
 import Dexie from 'dexie';
 
 const getData = async () => {
@@ -13,19 +12,19 @@ const getData = async () => {
 export const NostraInit = () => {
     return <Async promiseFn={getData}>
         {({ data, error, isPending }) => {
-            if (isPending){
+            if (isPending) {
                 return null
             }
-            if (error){
+            if (error) {
                 return null
             }
-            if (data){
+            if (data) {
                 var db = new Dexie("nostra");
                 db.version(1).stores({
-                  localData: "id,data"
+                    localData: "id,data"
                 });
 
-                db.localData.add({id : "content", data: JSON.stringify(data)});
+                db.localData.add({ id: "content", data: JSON.stringify(data) });
             }
             return null
         }}

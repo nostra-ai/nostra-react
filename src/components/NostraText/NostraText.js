@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useState, useEffect } from 'react'
 import Parser from 'html-react-parser';
 import Dexie from 'dexie';
 
 const data = {
-  "test" : "This text is from our database!",
+  "test": "This text is from our database!",
 };
 
-async function getData(){
+async function getData() {
   var db = new Dexie("nostra");
   db.version(1).stores({
     localData: "id,data"
@@ -22,24 +22,24 @@ async function getData(){
 
 var content = getData();
 
-export const NostraText = ({ tag : Tag, original, nostraTag, attributes }) => {
-    var result = original;
+export const NostraText = ({ tag: Tag, original, nostraTag, attributes }) => {
+  const [text, setText] = useState('');
+  var result = original;
 
-    content.then((nData) => {
-      var tempResult = JSON.parse(nData[0]["data"]);
+  content.then((nData) => {
+    var tempResult = JSON.parse(nData[0]["data"]);
 
-      if(tempResult["showDefault"]){
-        result = original;
-      }else{
-        result = tempResult["variations"]["referrer"]["home-button"][0]["text"];
-      }
+    if (tempResult["showDefault"]) {
+      setText(original);
+    } else {
+      setText(tempResult["variations"]["referrer"]["home-button"][0]["text"]);
+    }
+  }).catch((e) => {
+    console.log(e);
+  });
 
-    }).catch((e) => {
-      console.log(e);
-    });
 
-
-    return (
-      <Tag data-nostra={nostraTag} { ...attributes }> {Parser(result)} </Tag> 
-    )
+  return (
+    <Tag data-nostra={nostraTag} {...attributes}> {Parser(text)} </Tag>
+  )
 }
