@@ -30,6 +30,8 @@
     "dexie": "^3.2.1",
     "dexie-react-hooks": "^1.1.1",
     "html-react-parser": "^1.4.8",
-    "react-async": "^10.0.1"
+    "react-async": "^10.0.1",
+    "universal-cookie": "^4.0.4",
+    "uuid": "^8.3.2"
   }
 }
