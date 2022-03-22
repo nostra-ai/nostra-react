@@ -1,6 +1,8 @@
 import React, { Component, Fragment, useState, useEffect } from 'react'
 import Parser from 'html-react-parser';
 import Dexie from 'dexie';
+import PropTypes from 'prop-types';
+
 
 async function getData() {
   var db = new Dexie("nostra");
