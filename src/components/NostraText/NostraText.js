@@ -2,10 +2,6 @@ import React, { Component, Fragment, useState, useEffect } from 'react'
 import Parser from 'html-react-parser';
 import Dexie from 'dexie';
 
-const data = {
-  "test": "This text is from our database!",
-};
-
 async function getData() {
   var db = new Dexie("nostra");
   db.version(1).stores({
@@ -13,14 +9,14 @@ async function getData() {
   });
 
   try {
-    const contentData = await db.localData.where("id").equals("content").toArray();
-    return contentData;
+    return await db.localData.where("id").equals("content").toArray();
   } catch (e) {
     console.log(e);
   }
 }
 
 var content = getData();
+
 /* 
   NostraText -> HTML element with data-nostra tag
   @params
@@ -28,20 +24,23 @@ var content = getData();
     - original -> The original text that was in your original element
     - nostraTag -> The tag that links to the content in our nostra DB
     - attributes -> Dictionary of html attributes (i.e. className, style, etc...)
-
 */
 
 export const NostraText = ({ tag: Tag, original, nostraTag, attributes }) => {
   const [text, setText] = useState('');
-  var result = original;
 
   content.then((nData) => {
     var tempResult = JSON.parse(nData[0]["data"]);
 
+    /*
+      Content show default or profile status or uri?
+      
+    */
+
     if (tempResult["showDefault"]) {
       setText(original);
     } else {
-      setText(tempResult["variations"]["referrer"]["home-button"][0]["text"]);
+      setText(tempResult["variations"]["referrer"][nostraTag][0]["text"]);
     }
   }).catch((e) => {
     console.log(e);
