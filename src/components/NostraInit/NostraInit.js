@@ -58,25 +58,30 @@ const determineLayout = () => {
     var contentShowDefault = true; // determined in content call
     var change_layout = false; // determined by cookies
     var variations = [[2, 3, 3]]; // Nostra.ai // Determined in content call
-    var machine_learning_info = { // Determined in content call
+    var machine_learning_info = {
+        "arn": "...",
         "showRandom": true,
-        "probabilityDefault": 1
+        "probabilityDefault": 20,
+        "EventTrackingID": "..."
     };
     var awsPersonalize = { // Determined in AWS Personalize call
         "status": 200,
         "data": {}
     };
 
+    const cookies = new Cookies();
+
     var randNum = Math.floor(Math.random() * 100) + 1;
     console.log("Input: " + machine_learning_info["probabilityDefault"] + " Rand: " + randNum);
+    cookies.set('nostra-random-number', { "rand": randNum, "machine_learning_prob": machine_learning_info["probabilityDefault"]}, { path: '/' });
 
     if (contentShowDefault || (randNum <= machine_learning_info["probabilityDefault"]) || awsPersonalize["status"] != 200) { // TODO: NEED TO BE ABLE TO TELL THAT THIS IS DEFAULT DATA (DO NOT TRAIN ON)
         console.log("DEFAULT LAYOUT");
         nostra_layout = new Array(variations.flat().length).fill(0);
         console.log(nostra_layout)
         console.log({ "context": nostra_context, "page": uri, "arm": "baseline", "ctr": 0, "reward": 0 })
-        // updated_cookies["nostra-bandit"] = createCookie("nostra-bandit", JSON.stringify({ "context": nostra_context, "page": uri, "arm": "baseline", "ctr": 0, "reward": 0 }), 'SET-COOKie');
-        // updated_cookies["nostra-layout-" + uri] = createCookie("nostra-layout-" + uri, nostra_layout, 'sEt-CoOkiE');
+        cookies.set('nostra-bandit', JSON.stringify({ "context": nostra_context, "page": uri, "arm": "baseline", "ctr": 0, "reward": 0 }), { path: '/' });
+        cookies.set("nostra-layout-" + uri, nostra_layout, { path: '/' });
     } else if (nostra_layout == undefined || change_layout) {
         var bandit;
 
@@ -109,12 +114,9 @@ const determineLayout = () => {
             bandit = randLayout[0];
         }
 
-        // updated_cookies["nostra-bandit"] = createCookie("nostra-bandit", JSON.stringify(bandit), 'SET-COOKie');
-        // updated_cookies["nostra-layout-" + uri] = createCookie("nostra-layout-" + uri, nostra_layout, 'sEt-CoOkiE');
-        console.log(nostra_layout)
         localStorage.setItem(uri, JSON.stringify(nostra_layout))
-        console.log("DOD")
-        console.log(bandit)
+        cookies.set('nostra-bandit', bandit, { path: '/' });
+        cookies.set("nostra-layout-" + uri, nostra_layout, { path: '/' });
     } else {
         nostra_layout = JSON.parse("[" + nostra_layout + "]");
     }
@@ -140,7 +142,6 @@ function sendToHistory(uid, site, history) {
         body: formBody,
         headers: headers
     });
-
 }
 
 
