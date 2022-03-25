@@ -1,4 +1,4 @@
-import Async, {useAsync} from 'react-async';
+import Async, { useAsync } from 'react-async';
 import Dexie from 'dexie';
 import Cookies from 'universal-cookie';
 import { v4 as uuidv4 } from 'uuid';
@@ -59,12 +59,12 @@ const determineLayout = () => {
     var change_layout = false; // determined by cookies
     var variations = [[2, 3, 3]]; // Nostra.ai // Determined in content call
     var machine_learning_info = { // Determined in content call
-        "showRandom" : true,
-        "probabilityDefault" : 1
+        "showRandom": true,
+        "probabilityDefault": 1
     };
     var awsPersonalize = { // Determined in AWS Personalize call
-        "status" : 200,
-        "data" : {}
+        "status": 200,
+        "data": {}
     };
 
     var randNum = Math.floor(Math.random() * 100) + 1;
@@ -80,8 +80,8 @@ const determineLayout = () => {
     } else if (nostra_layout == undefined || change_layout) {
         var bandit;
 
-        if(machine_learning_info["showRandom"]){
-            if("random-arms" in machine_learning_info){
+        if (machine_learning_info["showRandom"]) {
+            if ("random-arms" in machine_learning_info) {
                 console.log("> 2000 layout possibilities");
                 // if they have more than 2000 variations, we need to pick one from a given list
                 var rand_arms_db = machine_learning_info["random-arms"];
@@ -90,14 +90,14 @@ const determineLayout = () => {
                 var temp_arm = JSON.parse(rand_arms_db[pos]);
                 nostra_layout = armToLayout(variations, temp_arm);
                 bandit = { "context": nostra_context, "page": uri, "arm": temp_arm, "ctr": 0, "reward": 0 };
-            }else{
+            } else {
                 console.log("< 2000 layout possibilities");
                 // Random layout if company has less than 2000 layouts for a given page
                 var randLayout = generateLayout(variations, nostra_context, uri);
                 nostra_layout = randLayout[1];
                 bandit = randLayout[0];
             }
-        }else if (awsPersonalize["status"] == 200) {
+        } else if (awsPersonalize["status"] == 200) {
             console.log("AWS PERSONALIZE");
             var temp_arm = JSON.parse(awsPersonalize["data"][0]["itemId"]);
             nostra_layout = armToLayout(variations, temp_arm);
@@ -112,10 +112,35 @@ const determineLayout = () => {
         // updated_cookies["nostra-bandit"] = createCookie("nostra-bandit", JSON.stringify(bandit), 'SET-COOKie');
         // updated_cookies["nostra-layout-" + uri] = createCookie("nostra-layout-" + uri, nostra_layout, 'sEt-CoOkiE');
         console.log(nostra_layout)
+        localStorage.setItem(uri, JSON.stringify(nostra_layout))
+        console.log("DOD")
         console.log(bandit)
     } else {
         nostra_layout = JSON.parse("[" + nostra_layout + "]");
     }
+}
+
+function sendToHistory(uid, site, history) {
+    var urlToSend = 'https://prod-api.nostra.ai/history/';
+
+    headers = {
+        'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
+    }
+
+    const formBody = new URLSearchParams({
+        'uid': uid,
+        'history': history,
+        'site': site
+    })
+
+    // window.localStorage.setItem("lastSentTime", parseInt(Date.now() / 1000).toString());
+
+    return fetch(urlToSend, {
+        method: 'PUT',
+        body: formBody,
+        headers: headers
+    });
+
 }
 
 
@@ -125,7 +150,34 @@ export const NostraInit = () => {
     determineLayout()
     const cookies = new Cookies();
     cookies.set('nostra-uuid', uuidv4(), { path: '/' });
-    cookies.set('nostra-uri', location.pathname.substring(1), { path: '/' });
+    cookies.set('nostra-uri', location.pathname, { path: '/' });
+
+    useEffect(() => {
+        // PUT request using fetch with async/await
+        async function updatePost() {
+            var urlToSend = 'https://prod-api.nostra.ai/history/';
+
+            headers = {
+                'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
+            }
+
+            const formBody = new URLSearchParams({
+                'uid': cookies.get('nostra-uuid'),
+                'history': history,
+                'site': window.location.href
+            })
+
+            // window.localStorage.setItem("lastSentTime", parseInt(Date.now() / 1000).toString());
+
+            fetch(urlToSend, {
+                method: 'PUT',
+                body: formBody,
+                headers: headers
+            });
+        }
+
+        updatePost();
+    }, []);
 
     return <>
         <Async promiseFn={getProfile}>
@@ -173,7 +225,7 @@ export const NostraInit = () => {
             }}
         </Async>
         <Async promiseFn={getData}>
-                {({ data, error, isPending }) => {
+            {({ data, error, isPending }) => {
                 if (isPending) {
                     return null
                 }
