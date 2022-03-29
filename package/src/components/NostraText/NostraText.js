@@ -48,9 +48,12 @@ export const NostraText = ({ tag: Tag, original, nostraTag, attributes }) => {
     console.log(e);
   });
 
+  function testOnClick() {
+    console.log("Clicked");
+  }
 
   return (
-    <Tag data-nostra={nostraTag} {...attributes}> {Parser(text)} </Tag>
+    <Tag data-nostra={nostraTag} {...attributes} onClick={testOnClick}> {Parser(text)} </Tag>
   )
 }
 
