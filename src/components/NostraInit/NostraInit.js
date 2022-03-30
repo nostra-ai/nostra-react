@@ -180,7 +180,8 @@ export const NostraInit = () => {
         updatePost();
     }, []);
 
-    return <>
+    return <React.Fragment>
+        
         <Async promiseFn={getProfile}>
             {({ data, error, isPending }) => {
                 if (isPending) {
@@ -243,7 +244,7 @@ export const NostraInit = () => {
                 }
                 return null
             }}
-        </Async>
-    </>
+        </Async>    
+    </React.Fragment>
 
 }
