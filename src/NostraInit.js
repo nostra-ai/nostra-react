@@ -9,6 +9,7 @@ var headers = {
 };
 
 var db = new Dexie("nostra");
+var db_version = db.version(1);
 
 const getData = async (uri) => {
     console.log(uri);
@@ -190,7 +191,7 @@ export const NostraInit = () => {
                     return null
                 }
                 if (data) {
-                    db.version(1).stores({
+                    db_version.stores({
                         localData: "id,data"
                     });
 
@@ -208,7 +209,7 @@ export const NostraInit = () => {
                     //                 return null
                     //             }
                     //             if (data) {
-                    //                 db.version(1).stores({
+                    //                 db_version.stores({
                     //                     localData: "id,data"
                     //                 });
 
@@ -232,7 +233,7 @@ export const NostraInit = () => {
                     return null
                 }
                 if (data) {
-                    db.version(1).stores({
+                    db_version.stores({
                         localData: "id,data"
                     });
 

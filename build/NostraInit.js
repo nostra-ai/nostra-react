@@ -13,6 +13,7 @@ var headers = {
 };
 
 var db = new Dexie("nostra");
+var db_version = db.version(1);
 
 var getData = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(uri) {
@@ -278,7 +279,7 @@ export var NostraInit = function NostraInit() {
                     return null;
                 }
                 if (data) {
-                    db.version(1).stores({
+                    db_version.stores({
                         localData: "id,data"
                     });
 
@@ -296,7 +297,7 @@ export var NostraInit = function NostraInit() {
                     //                 return null
                     //             }
                     //             if (data) {
-                    //                 db.version(1).stores({
+                    //                 db_version.stores({
                     //                     localData: "id,data"
                     //                 });
 
@@ -325,7 +326,7 @@ export var NostraInit = function NostraInit() {
                     return null;
                 }
                 if (data) {
-                    db.version(1).stores({
+                    db_version.stores({
                         localData: "id,data"
                     });
 
