@@ -8,6 +8,8 @@ var headers = {
     'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
 };
 
+var db = new Dexie("nostra");
+
 const getData = async (uri) => {
     console.log(uri);
     const res = await fetch('https://prod-api.nostra.ai/content/?site=https://ec2.nostraprod.com&content=content&page=/&referrer=default', {
@@ -188,7 +190,6 @@ export const NostraInit = () => {
                     return null
                 }
                 if (data) {
-                    var db = new Dexie("nostra");
                     db.version(1).stores({
                         localData: "id,data"
                     });
@@ -207,7 +208,6 @@ export const NostraInit = () => {
                     //                 return null
                     //             }
                     //             if (data) {
-                    //                 var db = new Dexie("nostra");
                     //                 db.version(1).stores({
                     //                     localData: "id,data"
                     //                 });
@@ -232,7 +232,6 @@ export const NostraInit = () => {
                     return null
                 }
                 if (data) {
-                    var db = new Dexie("nostra");
                     db.version(1).stores({
                         localData: "id,data"
                     });

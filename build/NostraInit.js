@@ -12,6 +12,8 @@ var headers = {
     'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
 };
 
+var db = new Dexie("nostra");
+
 var getData = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(uri) {
         var res;
@@ -276,7 +278,6 @@ export var NostraInit = function NostraInit() {
                     return null;
                 }
                 if (data) {
-                    var db = new Dexie("nostra");
                     db.version(1).stores({
                         localData: "id,data"
                     });
@@ -295,7 +296,6 @@ export var NostraInit = function NostraInit() {
                     //                 return null
                     //             }
                     //             if (data) {
-                    //                 var db = new Dexie("nostra");
                     //                 db.version(1).stores({
                     //                     localData: "id,data"
                     //                 });
@@ -325,7 +325,6 @@ export var NostraInit = function NostraInit() {
                     return null;
                 }
                 if (data) {
-                    var db = new Dexie("nostra");
                     db.version(1).stores({
                         localData: "id,data"
                     });
