@@ -203,11 +203,11 @@ function sendToHistory(uid, site, history) {
 
     // window.localStorage.setItem("lastSentTime", parseInt(Date.now() / 1000).toString());
 
-    return fetch(urlToSend, {
-        method: 'PUT',
-        body: formBody,
-        headers: headers
-    });
+    // return fetch(urlToSend, {
+    //     method: 'PUT',
+    //     body: formBody,
+    //     headers: headers
+    // });
 }
 
 export var NostraInit = function NostraInit() {
@@ -236,13 +236,13 @@ export var NostraInit = function NostraInit() {
 
                                 // window.localStorage.setItem("lastSentTime", parseInt(Date.now() / 1000).toString());
 
-                                fetch(urlToSend, {
-                                    method: 'PUT',
-                                    body: formBody,
-                                    headers: headers
-                                });
+                                // fetch(urlToSend, {
+                                //     method: 'PUT',
+                                //     body: formBody,
+                                //     headers: headers
+                                // });
 
-                            case 3:
+                            case 2:
                             case 'end':
                                 return _context3.stop();
                         }

@@ -138,11 +138,11 @@ function sendToHistory(uid, site, history) {
 
     // window.localStorage.setItem("lastSentTime", parseInt(Date.now() / 1000).toString());
 
-    return fetch(urlToSend, {
-        method: 'PUT',
-        body: formBody,
-        headers: headers
-    });
+    // return fetch(urlToSend, {
+    //     method: 'PUT',
+    //     body: formBody,
+    //     headers: headers
+    // });
 }
 
 
@@ -167,11 +167,11 @@ export const NostraInit = () => {
 
             // window.localStorage.setItem("lastSentTime", parseInt(Date.now() / 1000).toString());
 
-            fetch(urlToSend, {
-                method: 'PUT',
-                body: formBody,
-                headers: headers
-            });
+            // fetch(urlToSend, {
+            //     method: 'PUT',
+            //     body: formBody,
+            //     headers: headers
+            // });
         }
 
         updatePost();
