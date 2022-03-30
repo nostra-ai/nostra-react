@@ -329,11 +329,11 @@ export var NostraInit = function NostraInit() {
                     return null;
                 }
                 if (data) {
-                    // db_version.stores({
-                    //     localData: "id,data"
-                    // });
+                    db_version.stores({
+                        localData: "id,data"
+                    });
 
-                    // db.localData.add({ id: "content", data: JSON.stringify(data) });
+                    db.localData.add({ id: "content", data: JSON.stringify(data) });
 
                     console.log("content");
                     console.log(data);
