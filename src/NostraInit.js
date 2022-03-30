@@ -149,7 +149,6 @@ function sendToHistory(uid, site, history) {
 export const NostraInit = () => {
     // TODO: Remember to uncomment
     // window.indexedDB.deleteDatabase("nostra");
-    console.time("start")
     determineLayout()
     const cookies = new Cookies();
     cookies.set('nostra-uuid', uuidv4(), { path: '/' });
@@ -244,7 +243,5 @@ export const NostraInit = () => {
             }}
         </Async>    
     </React.Fragment>
-
-    console.timeEnd("start")
 
 }

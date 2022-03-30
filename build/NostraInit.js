@@ -213,7 +213,6 @@ function sendToHistory(uid, site, history) {
 export var NostraInit = function NostraInit() {
     // TODO: Remember to uncomment
     // window.indexedDB.deleteDatabase("nostra");
-    console.time("start");
     determineLayout();
     var cookies = new Cookies();
     cookies.set('nostra-uuid', uuidv4(), { path: '/' });
@@ -337,6 +336,4 @@ export var NostraInit = function NostraInit() {
             }
         )
     );
-
-    console.timeEnd("start");
 };
