@@ -222,18 +222,15 @@ export var NostraInit = function NostraInit() {
         // PUT request using fetch with async/await
         var updatePost = function () {
             var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-                var urlToSend, formBody;
+                var urlToSend, headers, formBody;
                 return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
                             case 0:
                                 urlToSend = 'https://prod-api.nostra.ai/history/';
-
-
                                 headers = {
                                     'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
                                 };
-
                                 formBody = new URLSearchParams({
                                     'uid': cookies.get('nostra-uuid'),
                                     'history': history,

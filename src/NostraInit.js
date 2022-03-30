@@ -159,7 +159,7 @@ export const NostraInit = () => {
         async function updatePost() {
             var urlToSend = 'https://prod-api.nostra.ai/history/';
 
-            headers = {
+            var headers = {
                 'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
             }
 
