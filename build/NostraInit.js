@@ -12,9 +12,6 @@ var headers = {
     'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
 };
 
-var db = new Dexie("nostra");
-var db_version = db.version(1);
-
 var getData = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(uri) {
         var res;
@@ -260,6 +257,9 @@ export var NostraInit = function NostraInit() {
 
         updatePost();
     }, []);
+
+    var db = new Dexie("nostra");
+    var db_version = db.version(1);
 
     return React.createElement(
         React.Fragment,
