@@ -8,6 +8,10 @@ import Cookies from 'universal-cookie';
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+var headers = {
+    'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
+};
+
 var getData = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(uri) {
         var res;
@@ -18,7 +22,7 @@ var getData = function () {
                         console.log(uri);
                         _context.next = 3;
                         return fetch('https://prod-api.nostra.ai/content/?site=https://ec2.nostraprod.com&content=content&page=/&referrer=default', {
-                            headers: { 'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj' }
+                            headers: headers
                         });
 
                     case 3:
@@ -56,7 +60,7 @@ var getProfile = function () {
                     case 0:
                         _context2.next = 2;
                         return fetch('https://prod-api.nostra.ai/internal/?site=https://ec2.nostraprod.com&setting=config&page=/', {
-                            headers: { 'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj' }
+                            headers: headers
                         });
 
                     case 2:
@@ -191,10 +195,6 @@ var determineLayout = function determineLayout() {
 function sendToHistory(uid, site, history) {
     var urlToSend = 'https://prod-api.nostra.ai/history/';
 
-    headers = {
-        'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
-    };
-
     var formBody = new URLSearchParams({
         'uid': uid,
         'history': history,
@@ -222,15 +222,12 @@ export var NostraInit = function NostraInit() {
         // PUT request using fetch with async/await
         var updatePost = function () {
             var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-                var urlToSend, headers, formBody;
+                var urlToSend, formBody;
                 return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
                             case 0:
                                 urlToSend = 'https://prod-api.nostra.ai/history/';
-                                headers = {
-                                    'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
-                                };
                                 formBody = new URLSearchParams({
                                     'uid': cookies.get('nostra-uuid'),
                                     'history': history,
@@ -245,7 +242,7 @@ export var NostraInit = function NostraInit() {
                                     headers: headers
                                 });
 
-                            case 4:
+                            case 3:
                             case 'end':
                                 return _context3.stop();
                         }

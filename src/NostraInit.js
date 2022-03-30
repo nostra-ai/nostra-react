@@ -4,10 +4,14 @@ import Cookies from 'universal-cookie';
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+var headers = {
+    'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
+};
+
 const getData = async (uri) => {
     console.log(uri);
     const res = await fetch('https://prod-api.nostra.ai/content/?site=https://ec2.nostraprod.com&content=content&page=/&referrer=default', {
-        headers: { 'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj' }
+        headers: headers
     });
     if (!res.ok) throw new Error(res.statusText);
     return res.json();
@@ -15,7 +19,7 @@ const getData = async (uri) => {
 
 const getProfile = async () => {
     const res = await fetch('https://prod-api.nostra.ai/internal/?site=https://ec2.nostraprod.com&setting=config&page=/', {
-        headers: { 'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj' }
+        headers: headers
     });
     if (!res.ok) throw new Error(res.statusText);
     return res.json();
@@ -126,10 +130,6 @@ const determineLayout = () => {
 function sendToHistory(uid, site, history) {
     var urlToSend = 'https://prod-api.nostra.ai/history/';
 
-    headers = {
-        'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
-    }
-
     const formBody = new URLSearchParams({
         'uid': uid,
         'history': history,
@@ -158,10 +158,6 @@ export const NostraInit = () => {
         // PUT request using fetch with async/await
         async function updatePost() {
             var urlToSend = 'https://prod-api.nostra.ai/history/';
-
-            var headers = {
-                'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
-            }
 
             const formBody = new URLSearchParams({
                 'uid': cookies.get('nostra-uuid'),
