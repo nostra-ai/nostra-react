@@ -12,8 +12,8 @@ var headers = {
     'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
 };
 
-var db = new Dexie("nostra");
-var db_version = db.version(1);
+// var db = new Dexie("nostra");
+// var db_version = db.version(1);
 
 var getData = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(uri) {
@@ -279,11 +279,11 @@ export var NostraInit = function NostraInit() {
                     return null;
                 }
                 if (data) {
-                    db_version.stores({
-                        localData: "id,data"
-                    });
+                    // db_version.stores({
+                    //     localData: "id,data"
+                    // });
 
-                    db.localData.add({ id: "profile", data: JSON.stringify(data) });
+                    // db.localData.add({ id: "profile", data: JSON.stringify(data) });
 
                     // var trackedUris = data['tracked-uris'];
 
@@ -307,6 +307,9 @@ export var NostraInit = function NostraInit() {
                     //         }}
                     //     </Async>
                     // }
+
+                    console.log("profile");
+                    console.log(data);
                 }
                 return null;
             }
@@ -326,11 +329,14 @@ export var NostraInit = function NostraInit() {
                     return null;
                 }
                 if (data) {
-                    db_version.stores({
-                        localData: "id,data"
-                    });
+                    // db_version.stores({
+                    //     localData: "id,data"
+                    // });
 
-                    db.localData.add({ id: "content", data: JSON.stringify(data) });
+                    // db.localData.add({ id: "content", data: JSON.stringify(data) });
+
+                    console.log("content");
+                    console.log(data);
                 }
                 return null;
             }

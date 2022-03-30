@@ -8,8 +8,8 @@ var headers = {
     'x-api-key': '8OIjtrzO4o6rr4vglTZAx1hAbOJGzzQX5OMuwtMj'
 };
 
-var db = new Dexie("nostra");
-var db_version = db.version(1);
+// var db = new Dexie("nostra");
+// var db_version = db.version(1);
 
 const getData = async (uri) => {
     console.log(uri);
@@ -191,11 +191,11 @@ export const NostraInit = () => {
                     return null
                 }
                 if (data) {
-                    db_version.stores({
-                        localData: "id,data"
-                    });
+                    // db_version.stores({
+                    //     localData: "id,data"
+                    // });
 
-                    db.localData.add({ id: "profile", data: JSON.stringify(data) });
+                    // db.localData.add({ id: "profile", data: JSON.stringify(data) });
 
                     // var trackedUris = data['tracked-uris'];
 
@@ -220,6 +220,9 @@ export const NostraInit = () => {
                     //     </Async>
                     // }
 
+                    console.log("profile");
+                    console.log(data);
+
                 }
                 return null
             }}
@@ -233,11 +236,14 @@ export const NostraInit = () => {
                     return null
                 }
                 if (data) {
-                    db_version.stores({
-                        localData: "id,data"
-                    });
+                    // db_version.stores({
+                    //     localData: "id,data"
+                    // });
 
-                    db.localData.add({ id: "content", data: JSON.stringify(data) });
+                    // db.localData.add({ id: "content", data: JSON.stringify(data) });
+
+                    console.log("content");
+                    console.log(data);
                 }
                 return null
             }}
