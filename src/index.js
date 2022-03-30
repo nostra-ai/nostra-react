@@ -1,1 +1,3 @@
-export * from './components';
+export * from './NostraText';
+export * from './NostraInit';
+export * from './NostraImage';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { NostraText } from '../components/NostraText'
+import { NostraText } from '../NostraText'
 
 const stories = storiesOf('Nostra', module);
 
