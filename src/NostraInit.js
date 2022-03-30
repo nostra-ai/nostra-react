@@ -1,6 +1,7 @@
 import Async, { useAsync } from 'react-async';
 import Dexie from 'dexie';
 import Cookies from 'universal-cookie';
+import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const getData = async (uri) => {
