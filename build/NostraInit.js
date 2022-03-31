@@ -1,3 +1,5 @@
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _this = this;
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -144,7 +146,7 @@ var determineLayout = function determineLayout() {
     console.log("Input: " + machine_learning_info["probabilityDefault"] + " Rand: " + randNum);
     cookies.set('nostra-random-number', { "rand": randNum, "machine_learning_prob": machine_learning_info["probabilityDefault"] }, { path: '/' });
 
-    if (contentShowDefault || randNum <= machine_learning_info["probabilityDefault"] || awsPersonalize["status"] != 200) {
+    if (contentShowDefault || randNum >= machine_learning_info["probabilityDefault"] || awsPersonalize["status"] != 200) {
         // TODO: NEED TO BE ABLE TO TELL THAT THIS IS DEFAULT DATA (DO NOT TRAIN ON)
         console.log("DEFAULT LAYOUT");
         nostra_layout = new Array(variations.flat().length).fill(0);
@@ -213,49 +215,62 @@ function sendToHistory(uid, site, history) {
 export var NostraInit = function NostraInit() {
     // TODO: Remember to uncomment
     // window.indexedDB.deleteDatabase("nostra");
-    determineLayout();
+    // determineLayout()
     var cookies = new Cookies();
     cookies.set('nostra-uuid', uuidv4(), { path: '/' });
     cookies.set('nostra-uri', location.pathname, { path: '/' });
 
+    var _useState = useState(null),
+        _useState2 = _slicedToArray(_useState, 2),
+        data = _useState2[0],
+        setData = _useState2[1];
+
+    var _useState3 = useState(true),
+        _useState4 = _slicedToArray(_useState3, 2),
+        isLoading = _useState4[0],
+        setLoading = _useState4[1];
+
+    var _useState5 = useState(null),
+        _useState6 = _slicedToArray(_useState5, 2),
+        error = _useState6[0],
+        setError = _useState6[1];
+
     useEffect(function () {
         // PUT request using fetch with async/await
-        var updatePost = function () {
-            var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-                var urlToSend, formBody;
-                return regeneratorRuntime.wrap(function _callee3$(_context3) {
-                    while (1) {
-                        switch (_context3.prev = _context3.next) {
-                            case 0:
-                                urlToSend = 'https://prod-api.nostra.ai/history/';
-                                formBody = new URLSearchParams({
-                                    'uid': cookies.get('nostra-uuid'),
-                                    'history': history,
-                                    'site': window.location.href
-                                });
+        // async function updatePost() {
+        //     var urlToSend = 'https://prod-api.nostra.ai/history/';
 
-                                // window.localStorage.setItem("lastSentTime", parseInt(Date.now() / 1000).toString());
+        //     const formBody = new URLSearchParams({
+        //         'uid': cookies.get('nostra-uuid'),
+        //         'history': history,
+        //         'site': window.location.href
+        //     })
 
-                                // fetch(urlToSend, {
-                                //     method: 'PUT',
-                                //     body: formBody,
-                                //     headers: headers
-                                // });
+        //     window.localStorage.setItem("lastSentTime", parseInt(Date.now() / 1000).toString());
 
-                            case 2:
-                            case 'end':
-                                return _context3.stop();
-                        }
-                    }
-                }, _callee3, this);
-            }));
+        //     fetch(urlToSend, {
+        //         method: 'PUT',
+        //         body: formBody,
+        //         headers: headers
+        //     });
+        // }
 
-            return function updatePost() {
-                return _ref3.apply(this, arguments);
-            };
-        }();
+        // updatePost();
 
-        updatePost();
+        console.log(getProfile());
+
+        getProfile().then(function (response) {
+
+            if (response.ok) {
+                console.log(response);
+                console.log(response.json());
+            } else {
+                console.log("error for some reason...");
+            }
+        }).catch(function (error) {
+            console.log("error");
+            console.log(error);
+        });
     }, []);
 
     var db = new Dexie("nostra");
@@ -267,10 +282,10 @@ export var NostraInit = function NostraInit() {
         React.createElement(
             Async,
             { promiseFn: getProfile },
-            function (_ref4) {
-                var data = _ref4.data,
-                    error = _ref4.error,
-                    isPending = _ref4.isPending;
+            function (_ref3) {
+                var data = _ref3.data,
+                    error = _ref3.error,
+                    isPending = _ref3.isPending;
 
                 if (isPending) {
                     return null;
@@ -317,10 +332,10 @@ export var NostraInit = function NostraInit() {
         React.createElement(
             Async,
             { promiseFn: getData },
-            function (_ref5) {
-                var data = _ref5.data,
-                    error = _ref5.error,
-                    isPending = _ref5.isPending;
+            function (_ref4) {
+                var data = _ref4.data,
+                    error = _ref4.error,
+                    isPending = _ref4.isPending;
 
                 if (isPending) {
                     return null;
