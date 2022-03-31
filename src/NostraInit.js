@@ -80,7 +80,7 @@ const determineLayout = () => {
     console.log("Input: " + machine_learning_info["probabilityDefault"] + " Rand: " + randNum);
     cookies.set('nostra-random-number', { "rand": randNum, "machine_learning_prob": machine_learning_info["probabilityDefault"]}, { path: '/' });
 
-    if (contentShowDefault || (randNum <= machine_learning_info["probabilityDefault"]) || awsPersonalize["status"] != 200) { // TODO: NEED TO BE ABLE TO TELL THAT THIS IS DEFAULT DATA (DO NOT TRAIN ON)
+    if (contentShowDefault || (randNum >= machine_learning_info["probabilityDefault"]) || awsPersonalize["status"] != 200) { // TODO: NEED TO BE ABLE TO TELL THAT THIS IS DEFAULT DATA (DO NOT TRAIN ON)
         console.log("DEFAULT LAYOUT");
         nostra_layout = new Array(variations.flat().length).fill(0);
         console.log(nostra_layout)
@@ -149,37 +149,61 @@ function sendToHistory(uid, site, history) {
 export const NostraInit = () => {
     // TODO: Remember to uncomment
     // window.indexedDB.deleteDatabase("nostra");
-    determineLayout()
+    // determineLayout()
     const cookies = new Cookies();
     cookies.set('nostra-uuid', uuidv4(), { path: '/' });
     cookies.set('nostra-uri', location.pathname, { path: '/' });
 
+    const [data, setData] = useState(null);
+    const [isLoading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     useEffect(() => {
         // PUT request using fetch with async/await
-        async function updatePost() {
-            var urlToSend = 'https://prod-api.nostra.ai/history/';
+        // async function updatePost() {
+        //     var urlToSend = 'https://prod-api.nostra.ai/history/';
 
-            const formBody = new URLSearchParams({
-                'uid': cookies.get('nostra-uuid'),
-                'history': history,
-                'site': window.location.href
-            })
+        //     const formBody = new URLSearchParams({
+        //         'uid': cookies.get('nostra-uuid'),
+        //         'history': history,
+        //         'site': window.location.href
+        //     })
 
-            // window.localStorage.setItem("lastSentTime", parseInt(Date.now() / 1000).toString());
+        //     window.localStorage.setItem("lastSentTime", parseInt(Date.now() / 1000).toString());
 
-            // fetch(urlToSend, {
-            //     method: 'PUT',
-            //     body: formBody,
-            //     headers: headers
-            // });
-        }
+        //     fetch(urlToSend, {
+        //         method: 'PUT',
+        //         body: formBody,
+        //         headers: headers
+        //     });
+        // }
 
-        updatePost();
+        // updatePost();
+
+        console.log(getProfile());
+
+        getProfile().then(response => {
+
+            if(response.ok){
+                console.log(response);
+                console.log(response.json());
+            }else{
+                console.log("error for some reason...");
+            }
+
+        }).catch(error => {
+            console.log("error")
+            console.log(error);
+        })
+
+
+
+
     }, []);
 
     
-var db = new Dexie("nostra");
-var db_version = db.version(1);
+    var db = new Dexie("nostra");
+    var db_version = db.version(1);
 
     return <React.Fragment>
         
@@ -248,7 +272,7 @@ var db_version = db.version(1);
                 }
                 return null
             }}
-        </Async>    
+        </Async>
     </React.Fragment>
 
 }
