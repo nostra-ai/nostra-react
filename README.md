@@ -4,7 +4,9 @@ Connect to Nostra's dynamic changing logic to change elements in a React applica
 
 Supported element types:
 
-- Text Elements
+- All text elements
+- Anchor elements
+- Custom react wrapper components for text and anchor elements
 
 ## Install
 
@@ -48,4 +50,26 @@ const Home = () => {
 };
 ```
 
-## Tagging NostraText
+## Using NostraText
+
+Below is an example showing how to convert a text elememt (`p`,`h1`-`h6`, etc) or anchor tag to a `NostraText` element.
+
+`NostraText` takes in the following inputs:
+
+Take a `<p>` tag below:
+
+```html
+<p className="m-0 mb-32" data-reveal-delay="400">
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+  incididunt ut labore et dolore magna aliqua.
+</p>
+```
+
+and convert is as such:
+
+```html
+<NostraText nostraTag="header" original="Lorem ipsum dolor sit amet, consectetur
+adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+aliqua." tag="p" attributes={{ "className": "m-0 mb-32", "data-reveal-delay" :
+"400" }} />
+```
