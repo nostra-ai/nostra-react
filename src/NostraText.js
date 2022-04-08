@@ -2,6 +2,31 @@ import React, { useState, useEffect } from 'react'
 import Parser from 'html-react-parser';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
+import * as ReactDOMServer from 'react-dom/server';
+
+/* 
+  NostraCustomText -> HTML element with data-nostra tag
+  @params
+    - component -> Pass in custom component (e.x custom Button component you use for all buttons on your site)
+    - nostraTag -> The tag that links to the content in our nostra DB
+*/
+
+export const NostraCustomText = ({component, nostraTag}) => {
+
+    const reactComponent = Parser(ReactDOMServer.renderToStaticMarkup(component));
+
+    return (
+      <React.Fragment>
+        <NostraText tag={reactComponent.type} original={reactComponent.props.children} nostraTag={nostraTag} attributes={reactComponent.props}/>
+      </React.Fragment>
+    )
+}
+
+NostraCustomText.propTypes = {
+  component: PropTypes.object.isRequired,
+  nostraTag: PropTypes.string.isRequired,
+};
+
 
 /* 
   NostraText -> HTML element with data-nostra tag
@@ -15,12 +40,11 @@ import Cookies from 'universal-cookie';
 export const NostraText = ({ tag: Tag, original, nostraTag, attributes}) => {
   const [text, setText] = useState(original);
 
-  const cookies = new Cookies();
-
   useEffect(() => {
 
+    const cookies = new Cookies();
+
     var data = cookies.get("nostra-data");
-    console.log("cookie data: ", data);
 
     if(data === "original" || data === undefined){
       setText(original);
@@ -34,11 +58,11 @@ export const NostraText = ({ tag: Tag, original, nostraTag, attributes}) => {
       }
     }
 
-  }, [])
+  }, [nostraTag, original])
 
-  return (
-    <Tag data-nostra={nostraTag} data-nostrafind="find" {...attributes}> {Parser(text)} </Tag>
-  )
+    return (
+      <Tag data-nostra={nostraTag} data-nostrafind="find" {...attributes}> {Parser(text)} </Tag>
+    )
 }
 
 NostraText.propTypes = {
