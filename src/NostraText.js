@@ -37,7 +37,7 @@ NostraCustomText.propTypes = {
     - attributes -> Dictionary of html attributes (i.e. className, style, etc...)
 */
 
-export const NostraText = ({ tag: Tag, original, nostraTag, attributes}) => {
+export const NostraText = ({ type: Type, original, nostraTag, attrs}) => {
   const [text, setText] = useState(original);
 
   useEffect(() => {
@@ -61,13 +61,13 @@ export const NostraText = ({ tag: Tag, original, nostraTag, attributes}) => {
   }, [nostraTag, original])
 
     return (
-      <Tag data-nostra={nostraTag} data-nostrafind="find" {...attributes}> {Parser(text)} </Tag>
+      <Type data-nostra={nostraTag} data-nostrafind="find" {...attrs}> {Parser(text)} </Type>
     )
 }
 
 NostraText.propTypes = {
-  tag: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   original: PropTypes.string.isRequired,
   nostraTag: PropTypes.string.isRequired,
-  attributes: PropTypes.object
+  attrs: PropTypes.object
 };

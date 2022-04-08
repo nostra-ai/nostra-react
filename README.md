@@ -52,24 +52,61 @@ const Home = () => {
 
 ## Using NostraText
 
-Below is an example showing how to convert a text elememt (`p`,`h1`-`h6`, etc) or anchor tag to a `NostraText` element.
-
 `NostraText` takes in the following inputs:
+
+| Variable  | Type   | Required | Description                                                                     |
+| --------- | ------ | -------- | ------------------------------------------------------------------------------- |
+| type      | string | &check;  | Type of the HTML element being converted.                                       |
+| original  | string | &check;  | Original text/items inside of the HTML element.                                 |
+| nostraTag | string | &check;  | Internal name given to the element. This is used to change content dynamically. |
+| attrs     | dict   | &cross;  | Any attributes given to the HTML element.                                       |
+
+Example:
 
 Take a `<p>` tag below:
 
 ```html
 <p className="m-0 mb-32" data-reveal-delay="400">
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-  incididunt ut labore et dolore magna aliqua.
+  Lorem ipsum dolor sit amet, consectetur.
 </p>
 ```
 
 and convert is as such:
 
 ```html
-<NostraText nostraTag="header" original="Lorem ipsum dolor sit amet, consectetur
-adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-aliqua." tag="p" attributes={{ "className": "m-0 mb-32", "data-reveal-delay" :
-"400" }} />
+<NostraText nostraTag="header" original="Lorem ipsum dolor sit amet,
+consectetur." tag="p" attributes={{ "className": "m-0 mb-32",
+"data-reveal-delay" : "400" }} />
+```
+
+## Using NostraCustomText
+
+`NostraCustomText` takes the following inputs:
+
+| Variable  | Type   | Required | Description                                                                     |
+| --------- | ------ | -------- | ------------------------------------------------------------------------------- |
+| component | JSX    | &check;  | Type of the HTML element being converted.                                       |
+| nostraTag | string | &check;  | Internal name given to the element. This is used to change content dynamically. |
+
+Example:
+
+Take a custom element named `Button`:
+
+```javascript
+<Button tag="a" color="primary" wideMobile href="https://nostra.ai/">
+  Get started
+</Button>
+```
+
+and convert it as such:
+
+```javascript
+<NostraCustomText
+  component={
+    <Button tag="a" color="primary" wideMobile href="https://nostra.ai/">
+      Get started
+    </Button>
+  }
+  nostraTag="header-cta"
+/>
 ```
