@@ -2,53 +2,37 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var getData = function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var db;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            db = new Dexie("nostra");
-
-            db.version(1).stores({
-              localData: "id,data"
-            });
-
-            _context.prev = 2;
-            _context.next = 5;
-            return db.localData.where("id").equals("content").toArray();
-
-          case 5:
-            return _context.abrupt('return', _context.sent);
-
-          case 8:
-            _context.prev = 8;
-            _context.t0 = _context['catch'](2);
-
-            console.log(_context.t0);
-
-          case 11:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, this, [[2, 8]]);
-  }));
-
-  return function getData() {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-import React, { Component, Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Parser from 'html-react-parser';
-import Dexie from 'dexie';
 import PropTypes from 'prop-types';
+import Cookies from 'universal-cookie';
+import * as ReactDOMServer from 'react-dom/server';
 
-var content = getData();
+/* 
+  NostraCustomText -> HTML element with data-nostra tag
+  @params
+    - component -> Pass in custom component (e.x custom Button component you use for all buttons on your site)
+    - nostraTag -> The tag that links to the content in our nostra DB
+*/
+
+export var NostraCustomText = function NostraCustomText(_ref) {
+  var component = _ref.component,
+      nostraTag = _ref.nostraTag;
+
+
+  var reactComponent = Parser(ReactDOMServer.renderToStaticMarkup(component));
+
+  return React.createElement(
+    React.Fragment,
+    null,
+    React.createElement(NostraText, { tag: reactComponent.type, original: reactComponent.props.children, nostraTag: nostraTag, attributes: reactComponent.props })
+  );
+};
+
+NostraCustomText.propTypes = {
+  component: PropTypes.object.isRequired,
+  nostraTag: PropTypes.string.isRequired
+};
 
 /* 
   NostraText -> HTML element with data-nostra tag
@@ -60,40 +44,38 @@ var content = getData();
 */
 
 export var NostraText = function NostraText(_ref2) {
-  var Tag = _ref2.tag,
+  var Type = _ref2.type,
       original = _ref2.original,
       nostraTag = _ref2.nostraTag,
-      attributes = _ref2.attributes;
+      attrs = _ref2.attrs;
 
-  var _useState = useState(''),
+  var _useState = useState(original),
       _useState2 = _slicedToArray(_useState, 2),
       text = _useState2[0],
       setText = _useState2[1];
 
-  content.then(function (nData) {
-    var tempResult = JSON.parse(nData[0]["data"]);
+  useEffect(function () {
 
-    /*
-      Content show default or profile status or uri?
-      
-    */
+    var cookies = new Cookies();
 
-    if (tempResult["showDefault"]) {
+    var data = cookies.get("nostra-data");
+
+    if (data === "original" || data === undefined) {
       setText(original);
     } else {
-      setText(tempResult["variations"]["referrer"][nostraTag][0]["text"]);
-    }
-  }).catch(function (e) {
-    console.log(e);
-  });
+      var text = data[nostraTag];
 
-  function testOnClick() {
-    console.log("Clicked");
-  }
+      if (text !== undefined) {
+        setText(text["text"]);
+      } else {
+        setText(original);
+      }
+    }
+  }, [nostraTag, original]);
 
   return React.createElement(
-    Tag,
-    _extends({ 'data-nostra': nostraTag }, attributes, { onClick: testOnClick }),
+    Type,
+    _extends({ 'data-nostra': nostraTag, 'data-nostrafind': 'find' }, attrs),
     ' ',
     Parser(text),
     ' '
@@ -101,8 +83,8 @@ export var NostraText = function NostraText(_ref2) {
 };
 
 NostraText.propTypes = {
-  tag: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   original: PropTypes.string.isRequired,
   nostraTag: PropTypes.string.isRequired,
-  attributes: PropTypes.object.isRequired
+  attrs: PropTypes.object
 };
