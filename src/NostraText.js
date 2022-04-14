@@ -12,34 +12,30 @@ import * as ReactDOMServer from 'react-dom/server';
 */
 
 export const nostraRawText = (original, nostraTag) => {
-  const [text, setText] = useState(original);
+  var text = original
 
-  useEffect(() => {
+  const cookies = new Cookies();
 
-    const cookies = new Cookies();
+  var data = cookies.get("nostra-data");
 
-    var data = cookies.get("nostra-data");
+  if(data === "original" || data === undefined){
+    text = original
+  }else{
+    text = data[nostraTag];
 
-    if(data === "original" || data === undefined){
-      setText(original);
+    if(text !== undefined){
+      text = text["text"]
     }else{
-      var text = data[nostraTag];
-
-      if(text !== undefined){
-        setText(text["text"]);
-      }else{
-        setText(original);
-      }
+      text = original
     }
+  }
 
-  }, [nostraTag, original])
-
-    return Parser(text);
+return Parser(text);
 }
 
 nostraRawText.propTypes = {
-  original: PropTypes.string.isRequired,
-  nostraTag: PropTypes.string.isRequired,
+original: PropTypes.string.isRequired,
+nostraTag: PropTypes.string.isRequired,
 };
 
 /* 
@@ -55,7 +51,7 @@ export const NostraCustomText = ({component, nostraTag}) => {
 
     return (
       <React.Fragment>
-        <NostraText tag={reactComponent.type} original={reactComponent.props.children} nostraTag={nostraTag} attributes={reactComponent.props}/>
+        <NostraText type={reactComponent.type} original={reactComponent.props.children} nostraTag={nostraTag} attrs={reactComponent.props}/>
       </React.Fragment>
     )
 }
