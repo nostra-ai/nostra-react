@@ -5,6 +5,44 @@ import Cookies from 'universal-cookie';
 import * as ReactDOMServer from 'react-dom/server';
 
 /* 
+  nostraRawText -> HTML element with data-nostra tag
+  @params
+    - original -> The original text that was in your original element
+    - nostraTag -> The tag that links to the content in our nostra DB
+*/
+
+export const nostraRawText = (original, nostraTag) => {
+  const [text, setText] = useState(original);
+
+  useEffect(() => {
+
+    const cookies = new Cookies();
+
+    var data = cookies.get("nostra-data");
+
+    if(data === "original" || data === undefined){
+      setText(original);
+    }else{
+      var text = data[nostraTag];
+
+      if(text !== undefined){
+        setText(text["text"]);
+      }else{
+        setText(original);
+      }
+    }
+
+  }, [nostraTag, original])
+
+    return Parser(text);
+}
+
+nostraRawText.propTypes = {
+  original: PropTypes.string.isRequired,
+  nostraTag: PropTypes.string.isRequired,
+};
+
+/* 
   NostraCustomText -> HTML element with data-nostra tag
   @params
     - component -> Pass in custom component (e.x custom Button component you use for all buttons on your site)

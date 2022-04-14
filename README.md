@@ -88,6 +88,8 @@ consectetur." tag="p" attributes={{ "className": "m-0 mb-32",
 | component | JSX    | &check;  | Type of the HTML element being converted.                                       |
 | nostraTag | string | &check;  | Internal name given to the element. This is used to change content dynamically. |
 
+*Note: This will only work if the child of the component is what Nostra is testing*
+
 Example:
 
 Take a custom element named `Button`:
@@ -96,6 +98,42 @@ Take a custom element named `Button`:
 <Button tag="a" color="primary" wideMobile href="https://nostra.ai/">
   Get started
 </Button>
+```
+
+and convert it as such:
+
+```javascript
+<NostraCustomText
+  component={
+    <Button tag="a" color="primary" wideMobile href="https://nostra.ai/">
+      Get started
+    </Button>
+  }
+  nostraTag="header-cta"
+/>
+```
+
+## Using nostraRawText
+
+`nostraRawText` takes the following inputs:
+
+| Variable  | Type   | Required | Description                                                                     |
+| --------- | ------ | -------- | ------------------------------------------------------------------------------- |
+| original | string    | &check;  | The original text that was in your original element.                                       |
+| nostraTag | string | &check;  | Internal name given to the element. This is used to change content dynamically. |
+
+Example:
+
+Take a custom element named `Button`:
+
+```javascript
+<Button 
+  tag="a" 
+  color="primary" 
+  wideMobile 
+  href="https://nostra.ai/" 
+  value="Get started"
+/>
 ```
 
 and convert it as such:
