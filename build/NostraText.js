@@ -9,6 +9,40 @@ import Cookies from 'universal-cookie';
 import * as ReactDOMServer from 'react-dom/server';
 
 /* 
+  nostraRawText -> HTML element with data-nostra tag
+  @params
+    - original -> The original text that was in your original element
+    - nostraTag -> The tag that links to the content in our nostra DB
+*/
+
+export var nostraRawText = function nostraRawText(original, nostraTag) {
+  var text = original;
+
+  var cookies = new Cookies();
+
+  var data = cookies.get("nostra-data");
+
+  if (data === "original" || data === undefined) {
+    text = original;
+  } else {
+    text = data[nostraTag];
+
+    if (text !== undefined) {
+      text = text["text"];
+    } else {
+      text = original;
+    }
+  }
+
+  return Parser(text);
+};
+
+nostraRawText.propTypes = {
+  original: PropTypes.string.isRequired,
+  nostraTag: PropTypes.string.isRequired
+};
+
+/* 
   NostraCustomText -> HTML element with data-nostra tag
   @params
     - component -> Pass in custom component (e.x custom Button component you use for all buttons on your site)
@@ -25,7 +59,7 @@ export var NostraCustomText = function NostraCustomText(_ref) {
   return React.createElement(
     React.Fragment,
     null,
-    React.createElement(NostraText, { tag: reactComponent.type, original: reactComponent.props.children, nostraTag: nostraTag, attributes: reactComponent.props })
+    React.createElement(NostraText, { type: reactComponent.type, original: reactComponent.props.children, nostraTag: nostraTag, attrs: reactComponent.props })
   );
 };
 
