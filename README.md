@@ -11,7 +11,8 @@ Supported element types:
 ## Install
 
 ```bash
-yarn add shivpatel1027/nostra-component
+yarn add nostra-ai/nostra-react
+
 ```
 
 ## Usage
