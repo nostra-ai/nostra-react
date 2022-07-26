@@ -8,13 +8,13 @@ export const NostraInit = () => {
         const cookies = new Cookies();
         var tStatus = cookies.get("nostra-data");
         var track = cookies.get("n-track");
-    
-        if(!document.getElementById("n-track") && tStatus !== undefined && track !== undefined) {
+
+        if (!document.getElementById("n-track") && tStatus !== undefined && track !== undefined) {
             var script = document.createElement("script");
-            script.src = "https://nostra-tracking.s3.amazonaws.com/script-v1-3.js";
+            script.src = "https://nostra-tracking.s3.amazonaws.com/react-script.js";
             script.id = "n-track"
-            document.body.appendChild(script); 
-        }   
+            document.body.appendChild(script);
+        }
     }, [])
 
     return (

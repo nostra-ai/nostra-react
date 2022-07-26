@@ -30,7 +30,7 @@ Each page that is being dyanmically changed needs to have a `NostraInit` element
 Example:
 
 ```javascript
-import { NostraInit } from "nostra-react-component";
+import { NostraInit } from "nostra-react";
 
 const Home = () => {
   return (
@@ -52,6 +52,13 @@ const Home = () => {
 ```
 
 ## Using NostraText
+<<<<<<< HEAD
+=======
+You will need to import Components/functions as so:
+```javascript
+import {NostraText, nostraRawText, NostraCustomText} from "nostra-react";
+```
+>>>>>>> d501c01f4ab85227d40c5bfc815476e8b2186438
 
 `NostraText` takes in the following inputs:
 
@@ -59,7 +66,11 @@ const Home = () => {
 | --------- | ------ | -------- | ------------------------------------------------------------------------------- |
 | type      | string | &check;  | Type of the HTML element being converted.                                       |
 | original  | string | &check;  | Original text/items inside of the HTML element.                                 |
+<<<<<<< HEAD
 | nostraTag | string | &check;  | Internal name given to the element. This is used to change content dynamically. |
+=======
+| nostraTag | string | &check;  | Internal name given to the element. This is used to change content dynamically (Must be uniqe for each element). |
+>>>>>>> d501c01f4ab85227d40c5bfc815476e8b2186438
 | attrs     | dict   | &cross;  | Any attributes given to the HTML element.                                       |
 
 Example:
@@ -87,7 +98,11 @@ consectetur." tag="p" attributes={{ "className": "m-0 mb-32",
 | Variable  | Type   | Required | Description                                                                     |
 | --------- | ------ | -------- | ------------------------------------------------------------------------------- |
 | component | JSX    | &check;  | Type of the HTML element being converted.                                       |
+<<<<<<< HEAD
 | nostraTag | string | &check;  | Internal name given to the element. This is used to change content dynamically. |
+=======
+| nostraTag | string | &check;  | Internal name given to the element. This is used to change content dynamically (Must be uniqe for each element). |
+>>>>>>> d501c01f4ab85227d40c5bfc815476e8b2186438
 
 *Note: This will only work if the child of the component is what Nostra is testing*
 
@@ -121,7 +136,11 @@ and convert it as such:
 | Variable  | Type   | Required | Description                                                                     |
 | --------- | ------ | -------- | ------------------------------------------------------------------------------- |
 | original | string    | &check;  | The original text that was in your original element.                                       |
+<<<<<<< HEAD
 | nostraTag | string | &check;  | Internal name given to the element. This is used to change content dynamically. |
+=======
+| nostraTag | string | &check;  | Internal name given to the element. This is used to change content dynamically (Must be uniqe for each element). |
+>>>>>>> d501c01f4ab85227d40c5bfc815476e8b2186438
 
 Example:
 
